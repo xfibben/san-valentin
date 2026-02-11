@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Interactiva de San Valentín</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="envelope-wrapper">
+            <div class="envelope" id="envelope">
+                <div class="envelope-body"></div>
+                <div class="envelope-flap" id="flap"></div>
+            </div>
+            <div class="lock-heart" id="lockHeart"></div>
+            <div class="letter" id="letter">
+                <div class="letter-content">
+                    <div class="heart">❤️</div>
+                    <div class="letter-text" id="letterText">
+                        <p>Cargando mensaje...</p>
+                    </div>
+                    <div class="letter-footer">
+                        <p class="from">De: <span id="fromName">Tu amochito</span></p>
+                        <p class="to">Para: <span id="toName">"Ari (Mi amochito)"</span></p>
+                    </div>
+                    <!-- Botones de respuesta dentro de la carta -->
+                    <div class="response-buttons" id="responseButtons" style="display: none;">
+                        <button class="btn btn-yes" id="yesBtn">Sí</button>
+                        <button class="btn btn-no" id="noBtn">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="openBtn">Abrir</button>
+            <button class="btn btn-secondary" id="resetBtn">Abrir otra vez c:</button>
+        </div>
+        
+        <!-- Modal de confirmación -->
+        <div class="modal" id="confirmationModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-text">Chiiiiiii: Nos vemos el 14 a medio día amor</div>
+                <div class="modal-floating-hearts" id="modalFloatingHearts"></div>
+                <button class="btn btn-close" id="closeModal">Cerrar</button>
+            </div>
+        </div>
+        
+        <!-- Contenedor para corazones flotantes -->
+        <div class="floating-hearts" id="floatingHearts"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
