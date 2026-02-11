@@ -21,16 +21,30 @@
                         <p>Cargando mensaje...</p>
                     </div>
                     <div class="letter-footer">
-                        <p class="from">De: <span id="fromName">Carli</span></p>
-                        <p class="to">Para: <span id="toName">Alexander</span></p>
+                        <p class="from">De: <span id="fromName">Tu amochito</span></p>
+                        <p class="to">Para: <span id="toName">"Ari (Mi amochito)"</span></p>
+                    </div>
+                    <!-- Botones de respuesta dentro de la carta -->
+                    <div class="response-buttons" id="responseButtons" style="display: none;">
+                        <button class="btn btn-yes" id="yesBtn">Sí</button>
+                        <button class="btn btn-no" id="noBtn">No</button>
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="controls">
-            <button class="btn btn-primary" id="openBtn">OPEN</button>
-            <button class="btn btn-secondary" id="resetBtn">RESET</button>
+            <button class="btn btn-primary" id="openBtn">Abrir</button>
+            <button class="btn btn-secondary" id="resetBtn">Abrir otra vez c:</button>
+        </div>
+        
+        <!-- Modal de confirmación -->
+        <div class="modal" id="confirmationModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-text">Chiiiiiii: Nos vemos el 14 a medio día amor</div>
+                <div class="modal-floating-hearts" id="modalFloatingHearts"></div>
+                <button class="btn btn-close" id="closeModal">Cerrar</button>
+            </div>
         </div>
         
         <!-- Contenedor para corazones flotantes -->

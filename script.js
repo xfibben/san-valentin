@@ -12,7 +12,13 @@ const elements = {
     resetBtn: document.getElementById('resetBtn'),
     floatingHearts: document.getElementById('floatingHearts'),
     lockHeart: document.getElementById('lockHeart'),
-    letterText: document.getElementById('letterText')
+    letterText: document.getElementById('letterText'),
+    responseButtons: document.getElementById('responseButtons'),
+    yesBtn: document.getElementById('yesBtn'),
+    noBtn: document.getElementById('noBtn'),
+    confirmationModal: document.getElementById('confirmationModal'),
+    modalFloatingHearts: document.getElementById('modalFloatingHearts'),
+    closeModal: document.getElementById('closeModal')
 };
 
 // Estado de la aplicación
@@ -21,9 +27,11 @@ let isOpen = false;
 /**
  * Carga el mensaje desde el archivo mensaje.txt
  */
+
+const mensaje = "Amochito. Quería salirme un poco de la rutina y construirte este espacio digital solo para nosotros. A veces las palabras se quedan cortas, pero las líneas de código me ayudan a decirte lo mucho que valoro cada segundo a tu lado. Eres mi bug favorito en este sistema llamado vida y la razón por la que todo siempre funciona mejor. Por eso, hoy quiero preguntarte formalmente: ¿Quieres ser mi San Valentín y seguir siendo mi amochitoo?"
 async function loadMessage() {
     try {
-        const response = await fetch('mensaje.txt');
+        const response = mensaje
         if (!response.ok) throw new Error('No se pudo cargar el mensaje');
         const text = await response.text();
         const paragraphs = text.split('\n\n').filter(p => p.trim() !== '');
@@ -36,10 +44,8 @@ async function loadMessage() {
         console.error('Error al cargar el mensaje:', error);
         if (elements.letterText) {
             elements.letterText.innerHTML = `
-                <p>Mi Amor,</p>
-                <p>En este día tan especial, quiero que sepas que cada momento a tu lado es un regalo que atesoro en mi corazón.</p>
-                <p>Te amo con todo mi ser.</p>
-                <p>Con todo mi amor ❤️</p>
+                <p>Amochito,</p>
+                <p>Quería salirme un poco de la rutina y construirte esta cartita  digital  de tu ingeniero solo para nosotros. A veces las palabras se quedan cortas, pero las líneas de código me ayudan a decirte lo mucho que valoro cada segundo a tu lado.  Por eso, hoy quiero preguntarte formalmente: ¿Quieres ser mi San Valentín y seguir siendo mi amochitoo para siempre?</p>
             `;
         }
     }
@@ -73,11 +79,11 @@ loadMessage();
 loadNames();
 
 /**
- * Crea corazones flotantes animados cuando se abre la carta
+ * Crea corazones flotantes animados
  */
-function createFloatingHearts() {
+function createFloatingHearts(container = elements.floatingHearts) {
     const numHearts = 60;
-    elements.floatingHearts.innerHTML = '';
+    container.innerHTML = '';
     
     for (let i = 0; i < numHearts; i++) {
         const heart = document.createElement('div');
@@ -96,7 +102,7 @@ function createFloatingHearts() {
         const size = 20 + Math.random() * 15; // Entre 20px y 35px
         heart.style.fontSize = `${size}px`;
         
-        elements.floatingHearts.appendChild(heart);
+        container.appendChild(heart);
         
         setTimeout(() => heart.remove(), 4000 + (i * 50));
     }
@@ -113,6 +119,7 @@ function openEnvelope() {
     
     setTimeout(() => createFloatingHearts(), 200);
     setTimeout(() => elements.letter.classList.add('revealed'), 300);
+    setTimeout(() => elements.responseButtons.style.display = 'flex', 400);
     
     elements.openBtn.classList.add('inactive');
     elements.openBtn.disabled = true;
@@ -128,12 +135,44 @@ function resetEnvelope() {
     isOpen = false;
     elements.floatingHearts.innerHTML = '';
     elements.letter.classList.remove('revealed');
+    elements.responseButtons.style.display = 'none';
+    elements.confirmationModal.style.display = 'none';
+    
+    // Resetear posición del botón No
+    elements.noBtn.style.position = 'static';
+    elements.noBtn.style.left = 'auto';
+    elements.noBtn.style.top = 'auto';
+    elements.noBtn.style.zIndex = 'auto';
     
     setTimeout(() => elements.flap.classList.remove('open'), 300);
     
     elements.openBtn.classList.remove('inactive');
     elements.openBtn.disabled = false;
     elements.resetBtn.disabled = true;
+}
+
+/**
+ * Maneja el click en el botón "No" - lo mueve a una posición aleatoria
+ */
+function handleNoClick() {
+    const randomX = Math.random() * (window.innerWidth - 100);
+    const randomY = Math.random() * (window.innerHeight - 100);
+    
+    elements.noBtn.style.position = 'fixed';
+    elements.noBtn.style.left = randomX + 'px';
+    elements.noBtn.style.top = randomY + 'px';
+    elements.noBtn.style.zIndex = '50';
+}
+
+/**
+ * Maneja el click en el botón "Sí"
+ */
+function handleYesClick() {
+    elements.responseButtons.style.display = 'none';
+    elements.confirmationModal.style.display = 'flex';
+    
+    // Mostrar corazones en el modal
+    setTimeout(() => createFloatingHearts(elements.modalFloatingHearts), 200);
 }
 
 // Inicialización
@@ -147,6 +186,25 @@ function init() {
     if (elements.resetBtn) {
         elements.resetBtn.addEventListener('click', resetEnvelope);
         elements.resetBtn.disabled = true;
+    }
+    if (elements.yesBtn) {
+        elements.yesBtn.addEventListener('click', handleYesClick);
+    }
+    if (elements.noBtn) {
+        elements.noBtn.addEventListener('click', handleNoClick);
+    }
+    if (elements.closeModal) {
+        elements.closeModal.addEventListener('click', () => {
+            elements.confirmationModal.style.display = 'none';
+            elements.modalFloatingHearts.innerHTML = '';
+            elements.responseButtons.style.display = 'flex';
+            
+            // Resetear posición del botón No
+            elements.noBtn.style.position = 'static';
+            elements.noBtn.style.left = 'auto';
+            elements.noBtn.style.top = 'auto';
+            elements.noBtn.style.zIndex = 'auto';
+        });
     }
 }
 
